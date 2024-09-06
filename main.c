@@ -95,11 +95,11 @@ void Supprimer(){
      scanf("%s",Nnom);
      for(int i=0 ;i<size;i++){
         if(strcmp(c1[i].nom,Nnom)==0){
-             strcpy(c1[i].nom,c1[i+1].nom);
-             strcpy(c1[i].tel,c1[i+1].tel);
-             strcpy(c1[i].email,c1[i+1].email);
-        }
+                for(int j=i;j<size;j++){
+                        c1[i]=c1[i+1];
+                }
         size--;
+        }
 }
  }
 
