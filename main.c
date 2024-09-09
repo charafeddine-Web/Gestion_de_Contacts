@@ -11,34 +11,36 @@ typedef struct
 Contact c1[500];
 
 int size = 0;
-
 char Nnom[50];
 char Ntell[50];
 char Nemail[50];
 
-
-
-char Ajouter()
+void Ajouter()
 {
-    char ts[50];
+    char ts[100];
+    int t = 0;
     printf("entre le Nom :");
-    scanf("%s",ts);
-    for(int i=0; i <size; i++){
-        if(strcmp(ts,c1[i].nom)==0){
-            printf("le nom exsits !! \n entrer autre nom \t");
-            scanf("%s",ts);
-            i=0;
+    scanf("%s", ts);
+
+    for (int i = 0; i < size; i++)
+    {
+        if (strcmp(c1[i].nom, ts) == 0)
+        {
+            printf("le nom exsits !! \n");
+            t = 1;
+            break;
         }
     }
-    strcpy(c1[size].nom,ts);
-    printf("entre le  Numéro de téléphone :");
-    scanf("%s", c1[size].tel);
-    printf("entre le Email :");
-    scanf("%s", c1[size].email);
-    printf("ajoute Contact avec Success \n");
-    size++;
-
-
+    if (t == 0)
+    {
+        strcpy(c1[size].nom, ts);
+        printf("entre le  Numero de telephone :");
+        scanf("%s", c1[size].tel);
+        printf("entre le Email :");
+        scanf("%s", c1[size].email);
+        printf("ajoute Contact avec Success \n");
+        size++;
+    }
 }
 
 void Afficher()
@@ -54,58 +56,89 @@ void Afficher()
         printf("le nom est :%s\n", c1[i].nom);
         printf("le tel est :%s\n", c1[i].tel);
         printf("le email est :%s\n", c1[i].email);
-
     }
 }
 
-void Modifier(){
+void Modifier()
+{
 
-printf("entrer une nom :");
-    scanf("%s",Nnom);
-for(int i=0 ;i<size;i++){
+    printf("entrer une nom :");
+    scanf("%s", Nnom);
+    for (int i = 0; i < size; i++)
+    {
 
-    if(strcmp(c1[i].nom,Nnom)==0){
-         printf("entrer nouveu TELL :");
-         scanf("%s",Ntell);
-         printf("entrer nouveu EMAIL :" );
-         scanf("%s",Nemail);
-
-         strcpy(c1[i].tel,Ntell);
-         strcpy(c1[i].email,Nemail);
-    }
-}
-
-}
- void Rechercher(){
-     printf("pleas entrer une nom :");
-     scanf("%s",Nnom);
-     if(size==0){
-        printf("aucun contact !!");
-     }
-     for(int j=0;j<size;j++){
-            if(strcmp(c1[j].nom,Nnom)==0){
-                printf("le nom est :%s\n", c1[j].nom);
-                printf("le tel est :%s\n", c1[j].tel);
-                printf("le email est :%s\n", c1[j].email);
+        if (strcmp(c1[i].nom, Nnom) == 0)
+        {
+            int cofirmation = 0;
+            printf("si vous avez Modifie le contact tapez 1 sinon tapez 2 :");
+            scanf("%d", &cofirmation);
+            if (cofirmation == 1)
+            {
+                printf("entrer nouveu NOM :");
+                scanf("%s", Nnom);
+                printf("entrer nouveu TELL :");
+                scanf("%s", Ntell);
+                printf("entrer nouveu EMAIL :");
+                scanf("%s", Nemail);
+                strcpy(c1[i].tel, Ntell);
+                strcpy(c1[i].email, Nemail);
+            }else{
+                printf("le contact n'est pas modifie\n");
             }
-     }
-}
-void Supprimer(){
-     printf("pleas entrer une nom :");
-     scanf("%s",Nnom);
-     for(int i=0 ;i<size;i++){
-        if(strcmp(c1[i].nom,Nnom)==0){
-                for(int j=i;j<size;j++){
-                        c1[i]=c1[i+1];
-                }
-        size--;
         }
+    }
 }
- }
+void Rechercher()
+{
+    int nbrchoix = 0;
+    printf("tapez 1 si vous avez effectuer une recherche par nom ,sinon tapez 2 par email ?\n");
+    scanf("%d", &nbrchoix);
+    if (nbrchoix == 1)
+    {
+        printf("pleas entrer une nom :");
+        scanf("%s", Nnom);
+    }
+    else
+    {
+        printf("pleas entrer une email :");
+        scanf("%s", Nemail);
+    }
+
+    if (size == 0)
+    {
+        printf("aucun contact !!");
+    }
+    for (int j = 0; j < size; j++)
+    {
+        if (strcmp(c1[j].nom, Nnom) == 0 || strcmp(c1[j].email, Nemail) == 0)
+        {
+            printf("le nom est :%s\n", c1[j].nom);
+            printf("le tel est :%s\n", c1[j].tel);
+            printf("le email est :%s\n", c1[j].email);
+        }
+    }
+}
+void Supprimer()
+{
+    printf("pleas entrer une nom :");
+    scanf("%s", Nnom);
+    for (int i = 0; i < size; i++)
+    {
+        if (strcmp(c1[i].nom, Nnom) == 0)
+        {
+            for (int j = i; j < size; j++)
+            {
+                c1[i] = c1[i + 1];
+            }
+            size--;
+        }
+    }
+}
 
 int main()
 {
-    int choix =0;
+    int choix = 0;
+    // int testAjoute=0;
     do
     {
         printf("------------------- Systeme de Gestion de Contacts--------------------- \n \
@@ -118,38 +151,79 @@ int main()
 
         printf("pleas entrer votre choix :\t\n");
         scanf("%d", &choix);
-
-
-
+        int choix2 = 0;
+        int testSupprime = 0;
 
         switch (choix)
         {
         case 1:
-           Ajouter();
+            printf("si vous avez un seul contact tapez 1 sinon tapez 2 :");
+            scanf("%d", &choix2);
+            if (choix2 == 1)
+            {
+                Ajouter();
+            }
+            else
+            {
+                int number;
+                printf("entre le number de contact a ajouter :");
+                scanf("%d", &number);
+                for (int i = 0; i < number; i++)
+                {
+                    Ajouter();
+                }
+            }
             break;
 
         case 2:
             Modifier();
             break;
         case 3:
-             Supprimer();
+            int nbrsupprime;
+            printf("si vous avez supprime un contact tapez 0 sinon tapez 1 :");
+            scanf("%d", &testSupprime);
+            if (testSupprime == 0)
+            {
+                int confirme;
+                printf("Etes-vous sur , si oui tapez 1 sinon tapez 2 :");
+                scanf("%d", &confirme);
+                if (confirme == 1)
+                {
+                    Supprimer();
+                }
+                else
+                {
+                    printf("vous avez annule la suppression");
+                }
+            }
+            else
+            {
+                printf("entre le number de contact a supprimer :");
+                scanf("%d", &nbrsupprime);
+                for (int i = 0; i < nbrsupprime; i++)
+                {
+                    Supprimer();
+                }
+            }
             break;
         case 4:
             Afficher();
             break;
 
         case 5:
-             Rechercher();
+            Rechercher();
             break;
-
+        case 6:
+            return 0;
+            break;
 
         default:
             printf("choix invalide \n");
-             break;
+            break;
         }
         system("pause");
         system("cls");
-    }while(choix =! 0);
+    } while (choix = !0);
 
     return 0;
 }
